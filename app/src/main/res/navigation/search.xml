@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/search"
+    app:startDestination="@id/searchFragment">
+
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.musicplayer.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" >
+        <action
+            android:id="@+id/action_searchFragment_to_test3Fragment"
+            app:destination="@id/test3Fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/test3Fragment"
+        android:name="com.example.musicplayer.ui.search.Test3Fragment"
+        android:label="Test3Fragment" />
+</navigation>

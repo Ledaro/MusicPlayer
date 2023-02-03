@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/home"
         android:enabled="true"
         android:icon="@drawable/ic_home"
         android:title="@string/menu_item_home"/>
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/search"
         android:enabled="true"
         android:icon="@drawable/ic_search"
         android:title="@string/menu_item_search"/>
 
     <item
-        android:id="@+id/libraryFragment"
+        android:id="@+id/library"
         android:enabled="true"
         android:icon="@drawable/ic_library"
         android:title="@string/menu_item_library"/>
