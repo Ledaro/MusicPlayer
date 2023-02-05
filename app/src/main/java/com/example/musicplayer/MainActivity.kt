@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
        binding.bottomNavigationView.setupWithNavController(navController)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.home, R.id.search, R.id.library)
+            setOf(R.id.home, R.id.search, R.id.albums)
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
 

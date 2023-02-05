@@ -13,9 +13,9 @@
         android:title="@string/menu_item_search"/>
 
     <item
-        android:id="@+id/library"
+        android:id="@+id/albums"
         android:enabled="true"
-        android:icon="@drawable/ic_library"
-        android:title="@string/menu_item_library"/>
+        android:icon="@drawable/ic_album"
+        android:title="@string/menu_item_albums"/>
 
 </menu>
