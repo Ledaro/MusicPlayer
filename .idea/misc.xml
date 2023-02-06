@@ -6,11 +6,12 @@
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/drawable/ic_album.xml" value="0.2935" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/drawable/ic_library.xml" value="0.1935" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/fragment_album.xml" value="0.18" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/fragment_albums.xml" value="0.25" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/fragment_home.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/fragment_library.xml" value="0.3614583333333333" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/fragment_search.xml" value="0.3614583333333333" />
-        <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/item_album.xml" value="0.5" />
+        <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/item_album.xml" value="0.25" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/test1.xml" value="0.33" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/test2.xml" value="0.29743589743589743" />
         <entry key="..\:/Users/fzela/AndroidStudioProjects/MusicPlayer/app/src/main/res/layout/test3.xml" value="0.3614583333333333" />

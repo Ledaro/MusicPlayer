@@ -36,10 +36,10 @@ class AlbumsViewModel(
     )
 
     val BlackAlbum = Album(
-        id = 4,
-        title = "And Justice For All",
+        id = 5,
+        title = "Metallica",
         artist = "Metallica",
-        image = "https://m.media-amazon.com/images/I/81r3FVfNG3L._AC_SL1425_.jpg"
+        image = "https://m.media-amazon.com/images/I/411pMy47xvS._AC_SL1400_.jpg"
     )
 
     val albums = listOf(KillemAll, RideTheLightning, MasterOfPuppets, AndJusticeForAll, BlackAlbum)
