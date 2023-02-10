@@ -3,39 +3,30 @@ package com.example.musicplayer.ui.albums
 import android.os.Bundle
 import android.view.View
 import androidx.cardview.widget.CardView
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
-import com.google.android.material.card.MaterialCardView
+import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.MaterialFadeThrough
 
-class AlbumsFragment : Fragment(R.layout.fragment_albums) /*AlbumsAdapter.OnItemClickListener*/  {
+class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemClickListener {
     private var _binding: FragmentAlbumsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AlbumsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         _binding = FragmentAlbumsBinding.bind(view)
+        val albumsAdapter = AlbumsAdapter(this)
 
-        val albumsAdapter = AlbumsAdapter()
-
-        albumsAdapter.onItemClickListener = object : AlbumsAdapter.OnItemClickListener {
-            override fun onItemClick(albumId: Int, cardView: CardView) {
-                val extras = FragmentNavigatorExtras(
-                    cardView to albumId.toString()
-                )
-                val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(albumId)
-                findNavController().navigate(action, extras)
-            }
-        }
-
+        postponeEnterTransition()
+        binding.albumsRecyclerView.post { startPostponedEnterTransition() }
 
         binding.apply {
             albumsRecyclerView.apply {
@@ -46,27 +37,27 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums) /*AlbumsAdapter.OnItem
         }
 
         albumsAdapter.submitList(viewModel.albums)
-
     }
 
-    /*    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.button2.setOnClickListener {
-            findNavController().navigate(R.id.action_libraryFragment_to_test2Fragment)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough().apply {
+            duration = 300
         }
-    }*/
+    }
+
+    override fun onItemClick(album: Album, cardView: CardView) {
+        val extras = FragmentNavigatorExtras(
+            cardView to album.id.toString()
+        )
+        val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(album)
+        findNavController().navigate(action, extras)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
-/*    override fun onItemClick(albumId:Int, cardView: CardView) {
-        val extras = FragmentNavigatorExtras(
-            cardView to id.toString()
-        )
-        val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(id)
-        findNavController().navigate(action, extras)
-    }*/
-
 }

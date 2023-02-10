@@ -1,21 +1,21 @@
 package com.example.musicplayer
 
 import android.os.Bundle
+import android.transition.Fade
+import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicplayer.databinding.ActivityMainBinding
+import com.example.musicplayer.ui.albums.album.AlbumFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
-    private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,22 +26,28 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-       binding.bottomNavigationView.setupWithNavController(navController)
+        binding.bottomNavigationView.setupWithNavController(navController)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.home, R.id.search, R.id.albums)
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.searchFragment -> {
-                    binding.bottomNavigationView.visibility = View.VISIBLE
-                }
-                else -> {
-                    binding.bottomNavigationView.visibility = View.VISIBLE
+        supportFragmentManager.registerFragmentLifecycleCallbacks(object :
+            FragmentManager.FragmentLifecycleCallbacks() {
+            override fun onFragmentViewCreated(
+                fm: FragmentManager,
+                f: Fragment,
+                v: View,
+                savedInstanceState: Bundle?
+            ) {
+                TransitionManager.beginDelayedTransition(binding.root, Fade().apply {
+                    duration = 300
+                }.excludeTarget(R.id.nav_host_fragment, true))
+                when (f) {
+                    is AlbumFragment -> {
+                        binding.bottomNavigationView.visibility = View.GONE
+                    }
+                    else -> {
+                        binding.bottomNavigationView.visibility = View.VISIBLE
+                    }
                 }
             }
-        }
+        }, true)
     }
 }

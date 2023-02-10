@@ -20,7 +20,7 @@
         android:label="fragment_album"
         tools:layout="@layout/fragment_album" >
         <argument
-            android:name="albumId"
-            app:argType="integer" />
+            android:name="album"
+            app:argType="com.example.musicplayer.data.Album" />
     </fragment>
 </navigation>
