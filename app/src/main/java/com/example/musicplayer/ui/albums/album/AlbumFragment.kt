@@ -1,19 +1,25 @@
 package com.example.musicplayer.ui.albums.album
 
+import android.animation.LayoutTransition
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginTop
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.transition.TransitionManager
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentAlbumBinding
 import com.example.musicplayer.ui.albums.AlbumsViewModel
 import com.example.musicplayer.util.themeColor
-import com.google.android.material.appbar.AppBarLayout
+import com.google.android.material.color.MaterialColors
+import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
+
 
 class AlbumFragment : Fragment(R.layout.fragment_album) {
     private val args: AlbumFragmentArgs by navArgs()
@@ -40,6 +46,43 @@ class AlbumFragment : Fragment(R.layout.fragment_album) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_album, container, false)
         (activity as AppCompatActivity).setSupportActionBar(binding.albumToolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
+        val musicPlayerEnterTransform: MaterialContainerTransform =
+            createMusicPlayerTransform(
+                requireContext(),  /* entering= */
+                true,
+                binding.fab,
+                binding.musicPlayerContainer
+            )
+        binding.fab.setOnClickListener {
+            TransitionManager.beginDelayedTransition(container!!, musicPlayerEnterTransform)
+            binding.fab.visibility = View.GONE
+            binding.musicPlayerContainer.visibility = View.VISIBLE
+
+            binding.nestedScrollView.layoutTransition
+                .enableTransitionType(LayoutTransition.CHANGING)
+
+        }
+
+        val musicPlayerExitTransform: MaterialContainerTransform =
+            createMusicPlayerTransform(
+                requireContext(),  /* entering= */
+                false,
+                binding.musicPlayerContainer,
+                binding.fab
+            )
+
+        binding.musicPlayerContainer.setOnClickListener(
+            View.OnClickListener { v: View? ->
+                TransitionManager.beginDelayedTransition(
+                    container!!,
+                    musicPlayerExitTransform
+                )
+                binding.musicPlayerContainer.visibility = View.GONE
+                binding.fab.visibility = View.VISIBLE
+            })
+
         return binding.root
     }
 
@@ -48,21 +91,6 @@ class AlbumFragment : Fragment(R.layout.fragment_album) {
         binding.root.transitionName = args.album.id.toString()
         val album = viewModel.albums.find { it.id == args.album.id }
         binding.album = album
-
-/*        var isShow = true
-        var scrollRange = -1
-        binding.albumAppBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { barLayout, verticalOffset ->
-            if (scrollRange == -1){
-                scrollRange = barLayout?.totalScrollRange!!
-            }
-            if (scrollRange + verticalOffset == 0){
-                binding.albumCollapsingToolbar.title = " "
-                isShow = true
-            } else if (isShow){
-                binding.albumCollapsingToolbar.title = " " //careful there should a space between double quote otherwise it wont work
-                isShow = false
-            }
-        })*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,4 +105,17 @@ class AlbumFragment : Fragment(R.layout.fragment_album) {
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun createMusicPlayerTransform(
+        context: Context, entering: Boolean, startView: View, endView: View
+    ): MaterialContainerTransform {
+        val musicPlayerTransform = MaterialContainerTransform(context, entering)
+        musicPlayerTransform.setPathMotion(MaterialArcMotion())
+        musicPlayerTransform.scrimColor = Color.TRANSPARENT
+        musicPlayerTransform.startView = startView
+        musicPlayerTransform.endView = endView
+        musicPlayerTransform.addTarget(endView)
+        return musicPlayerTransform
+    }
 }
+
