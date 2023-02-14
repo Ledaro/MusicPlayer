@@ -27,7 +27,10 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
+        bottomNavigationViewFadeAnimation(binding)
+    }
 
+    private fun bottomNavigationViewFadeAnimation(binding: ActivityMainBinding) {
         supportFragmentManager.registerFragmentLifecycleCallbacks(object :
             FragmentManager.FragmentLifecycleCallbacks() {
             override fun onFragmentViewCreated(

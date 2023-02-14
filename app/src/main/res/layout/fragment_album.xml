@@ -11,7 +11,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinator"
+        android:id="@+id/album_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.albums.album.AlbumFragment">
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content">
 
                     <ImageView
-                        android:id="@+id/imageView"
+                        android:id="@+id/album_image_view"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         app:image_url="@{album.image}"
@@ -64,7 +64,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/album_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -72,15 +72,15 @@
             app:layout_anchorGravity="bottom|end" />
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/nested_scroll_view"
+            android:id="@+id/album_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="false"
             android:animateLayoutChanges="true"
+            android:fillViewport="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/parent"
+                android:id="@+id/album_music_player_layouts_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
@@ -88,10 +88,8 @@
                 android:orientation="vertical">
 
                 <!-- Music Player -->
-
-
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/music_player_container"
+                    android:id="@+id/album_music_player_container"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:background="@android:color/black"
@@ -103,19 +101,19 @@
                     app:layout_constraintTop_toTopOf="parent"
                     tools:visibility="visible">
 
-                    <!--                                                            <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/music_progress_indicator"
-                        style="@style/Widget.Material3.LinearProgressIndicator"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/cat_music_player_progress_indicator_content_description"
-                        android:indeterminate="false"
-                        android:progress="10"
-                        app:indicatorSize="16dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />-->
+                    <!--                    <com.google.android.material.progressindicator.LinearProgressIndicator
+                                            android:id="@+id/music_progress_indicator"
+                                            style="@style/Widget.Material3.LinearProgressIndicator"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:contentDescription="@string/cat_music_player_progress_indicator_content_description"
+                                            android:indeterminate="false"
+                                            android:progress="10"
+                                            app:indicatorSize="16dp"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />-->
 
                     <com.google.android.material.button.MaterialButton
                         style="@style/Widget.Catalog.MusicPlayer.Player.Button"
@@ -123,7 +121,7 @@
                         android:layout_height="@dimen/cat_music_player_button_size"
                         android:layout_marginStart="@dimen/cat_music_player_control_button_margin"
                         android:contentDescription="@string/cat_music_player_rewind_button_content_description"
-                        app:icon="@drawable/ic_fast_rewind_24dp"
+                        app:icon="@drawable/ic_fast_rewind"
                         app:layout_constraintBottom_toTopOf="@id/volume_slider"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -134,7 +132,7 @@
                         android:layout_width="@dimen/cat_music_player_button_size"
                         android:layout_height="@dimen/cat_music_player_button_size"
                         android:contentDescription="@string/cat_music_player_pause_button_content_description"
-                        app:icon="@drawable/ic_play_arrow_white_24dp"
+                        app:icon="@drawable/ic_play_arrow"
                         app:layout_constraintBottom_toTopOf="@id/volume_slider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -146,7 +144,7 @@
                         android:layout_height="@dimen/cat_music_player_button_size"
                         android:layout_marginEnd="@dimen/cat_music_player_control_button_margin"
                         android:contentDescription="@string/cat_music_player_fast_forward_button_content_description"
-                        app:icon="@drawable/ic_fast_forward_white_24dp"
+                        app:icon="@drawable/ic_fast_forward"
                         app:layout_constraintBottom_toTopOf="@id/volume_slider"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -159,7 +157,7 @@
                         android:layout_marginStart="@dimen/cat_music_player_volume_button_margin"
                         android:layout_marginLeft="@dimen/cat_music_player_volume_button_margin"
                         android:contentDescription="@string/cat_music_player_volume_down_button_content_description"
-                        app:icon="@drawable/ic_volume_down_white_24dp"
+                        app:icon="@drawable/ic_volume_down"
                         app:layout_constraintBottom_toBottomOf="@id/volume_slider"
                         app:layout_constraintEnd_toStartOf="@id/volume_slider"
                         app:layout_constraintTop_toTopOf="@id/volume_slider" />
@@ -191,7 +189,7 @@
                         android:layout_marginEnd="@dimen/cat_music_player_volume_button_margin"
                         android:layout_marginRight="@dimen/cat_music_player_volume_button_margin"
                         android:contentDescription="@string/cat_music_player_volume_up_button_content_description"
-                        app:icon="@drawable/ic_volume_up_white_24dp"
+                        app:icon="@drawable/ic_volume_up"
                         app:layout_constraintBottom_toBottomOf="@id/volume_slider"
                         app:layout_constraintStart_toEndOf="@id/volume_slider"
                         app:layout_constraintTop_toTopOf="@id/volume_slider" />
@@ -199,22 +197,22 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/linear_test"
+                    android:id="@+id/album_details_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="35dp"
                     android:layout_marginTop="35dp"
                     android:layout_marginRight="35dp"
                     android:layout_marginBottom="35dp"
-                    android:orientation="vertical"
                     android:animateLayoutChanges="true"
+                    android:orientation="vertical"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/music_player_container">
+                    app:layout_constraintTop_toBottomOf="@+id/album_music_player_container">
 
                     <TextView
-                        android:id="@+id/text"
+                        android:id="@+id/album_name_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{album.title}"
@@ -225,7 +223,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/text2"
+                        android:id="@+id/album_artist_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@{album.artist}"
@@ -234,12 +232,12 @@
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/text" />
+                        app:layout_constraintTop_toBottomOf="@id/album_name_text_view" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

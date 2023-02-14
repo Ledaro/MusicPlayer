@@ -9,5 +9,4 @@ data class Album(
     var title: String,
     var artist: String,
     var image: String
-) : Parcelable {
-}
+) : Parcelable

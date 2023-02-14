@@ -3,7 +3,6 @@ package com.example.musicplayer.ui.albums
 import android.os.Bundle
 import android.view.View
 import androidx.cardview.widget.CardView
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
-import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
 
 class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemClickListener {
@@ -42,9 +40,7 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough().apply {
-            duration = 300
-        }
+        exitTransition = MaterialFadeThrough()
     }
 
     override fun onItemClick(album: Album, cardView: CardView) {
