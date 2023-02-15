@@ -11,4 +11,5 @@
     <color name="cat_music_player_primary">@android:color/white</color>
     <color name="cat_music_player_secondary">@android:color/black</color>
     <color name="cat_music_player_on_secondary">@android:color/white</color>
+
 </resources>

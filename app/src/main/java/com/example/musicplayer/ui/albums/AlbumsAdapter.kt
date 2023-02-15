@@ -35,7 +35,7 @@ class AlbumsAdapter(private val listener: OnItemClickListener) :
                     val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val album = getItem(position)
-                        listener.onItemClick(album, albumCardView)
+                        listener.onItemClick(album, albumItemContainer)
                     }
                 }
             }
@@ -43,7 +43,7 @@ class AlbumsAdapter(private val listener: OnItemClickListener) :
 
         fun bind(album: Album) {
             binding.album = album
-            binding.albumCardView.transitionName = album.id.toString()
+            binding.albumItemContainer.transitionName = album.id.toString()
         }
     }
 

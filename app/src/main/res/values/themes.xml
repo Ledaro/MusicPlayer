@@ -19,29 +19,23 @@
         <item name="android:textSize">0sp</item>
     </style>
 
-<!--    <style name="Theme.MusicPlayer.New" tools:ignore="UnusedResources">
-        <item name="colorSecondary">@color/cat_music_player_secondary</item>
-        <item name="colorOnSecondary">@color/cat_music_player_on_secondary</item>
-
-        <item name="android:statusBarColor" tools:targetApi="21">?attr/colorControlNormal</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
-    </style>-->
-
-    <style name="ThemeOverlay.Catalog.MusicPlayer.Player" parent="">
+    <!--MusicPlayerContainerTheme-->
+    <style name="ThemeOverlay.MusicPlayer.Player" parent="">
         <item name="colorPrimary">@color/cat_music_player_primary</item>
     </style>
 
-    <style name="Widget.Catalog.MusicPlayer.Player.Button" parent="Widget.Material3.Button.TextButton.Icon">
+    <style name="Widget.MusicPlayer.Player.Button" parent="Widget.Material3.Button.TextButton.Icon">
         <item name="android:insetTop">0dp</item>
         <item name="android:insetBottom">0dp</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="iconPadding">0dp</item>
         <item name="iconTint">?attr/colorPrimary</item>
-        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.Catalog.MusicPlayer.Player.Button</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.MusicPlayer.Player.Button</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.Catalog.MusicPlayer.Player.Button" parent="">
+    <style name="ShapeAppearanceOverlay.MusicPlayer.Player.Button" parent="">
         <item name="cornerSize">50%</item>
     </style>
+
 </resources>

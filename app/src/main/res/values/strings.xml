@@ -6,23 +6,24 @@
     <string name="menu_item_search">Search</string>
     <string name="menu_item_albums">Albums</string>
 
-    <!--Music Player-->
-    <string name="cat_music_player_album_cover_content_description" description="Content description of album cover [CHAR_LIMIT=NONE]">Album cover</string>
+    <!--AlbumFragmentAppBarMenu-->
+    <string name="album_appbar_menu_favorite">Favorite</string>
+    <string name="album_appbar_menu_other">Other</string>
 
-    <string name="cat_music_player_progress_indicator_content_description" description="Content description of the progress indicator [CHAR_LIMIT=NONE]">Music progress indicator</string>
-    <string name="cat_music_player_pause_button_content_description" description="Content description of the pause button [CHAR_LIMIT=NONE]">Pause button</string>
-    <string name="cat_music_player_play_button_content_description" description="Content description of the play button [CHAR_LIMIT=NONE]">Play button</string>
-    <string name="cat_music_player_rewind_button_content_description" description="Content description of the rewind button [CHAR_LIMIT=NONE]">Rewind button</string>
-    <string name="cat_music_player_fast_forward_button_content_description" description="Content description of the fast forward button [CHAR_LIMIT=NONE]">Fast forward button</string>
-    <string name="cat_music_player_volume_down_button_content_description" description="Content description of the volume down button [CHAR_LIMIT=NONE]">Volume down button</string>
-    <string name="cat_music_player_volume_slider_content_description" description="Content description of the volume slider [CHAR_LIMIT=NONE]">Volume slider</string>
-    <string name="cat_music_player_volume_up_button_content_description" description="Content description of the volume up button [CHAR_LIMIT=NONE]">Volume up button</string>
+    <!--AlbumFragment -->
+    <string name="album_cover">Album cover</string>
+    <string name="music_player_progress_indicator">Music progress indicator</string>
+    <string name="music_player_pause_button">Pause button</string>
+    <string name="music_player_play_button">Play button</string>
+    <string name="music_player_rewind_button">Rewind button</string>
+    <string name="music_player_fast_forward_button">Fast forward button</string>
+    <string name="music_player_volume_down_button">Volume down button</string>
+    <string name="music_player_volume_slider">Volume slider</string>
+    <string name="music_player_volume_up_button">Volume up button</string>
 
-    <string name="cat_music_player_album_menu_favorite_title" description="Content description of the favorite button [CHAR_LIMIT=NONE]">Favorite</string>
-    <string name="cat_music_player_album_menu_share_title" description="Content description of the share button [CHAR_LIMIT=NONE]">Share</string>
+    <!--AlbumsFragmentAppBar --> TODO()
+    <string name="music_player_lib_menu_sort_title" description="Name of the sort list button">Sort</string>
+    <string name="music_player_lib_menu_list_type_title" description="Name of the list type toggle button">Toggle list type</string>
+    <string name="music_player_album_duration" description="Duration of the album">52 mins</string>
 
-    <string name="cat_music_player_lib_menu_sort_title" description="Name of the sort list button [CHAR_LIMIT=NONE]">Sort</string>
-    <string name="cat_music_player_lib_menu_list_type_title" description="Name of the list type toggle button [CHAR_LIMIT=NONE]">Toggle list type</string>
-
-    <string name="cat_music_player_album_duration" description="Duration of the album [CHAR_LIMIT=NONE]">52 mins</string>
 </resources>

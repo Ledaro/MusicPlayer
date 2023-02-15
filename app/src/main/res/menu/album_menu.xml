@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Favourite"
-        app:showAsAction="always"
-        android:icon="@drawable/ic_heart"/>
+        android:icon="@drawable/ic_heart"
+        android:title="@string/album_appbar_menu_favorite"
+        app:showAsAction="always" />
 
     <item
-        android:title="Other"
+        android:title="@string/album_appbar_menu_other"
         app:showAsAction="never" />
 
 </menu>
