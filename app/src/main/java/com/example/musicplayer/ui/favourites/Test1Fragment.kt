@@ -1,4 +1,4 @@
-package com.example.musicplayer.ui.home
+package com.example.musicplayer.ui.favourites
 
 import androidx.fragment.app.Fragment
 import com.example.musicplayer.R

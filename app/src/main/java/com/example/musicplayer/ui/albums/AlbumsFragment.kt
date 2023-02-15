@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
+import com.google.android.material.transition.MaterialFade
 import com.google.android.material.transition.MaterialFadeThrough
 
 class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemClickListener {
@@ -40,7 +41,9 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFadeThrough()
+        exitTransition = MaterialFade().apply {
+            duration = 150
+        }
     }
 
     override fun onItemClick(album: Album, cardView: CardView) {

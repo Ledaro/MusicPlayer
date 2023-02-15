@@ -1,17 +1,12 @@
 package com.example.musicplayer
 
 import android.os.Bundle
-import android.transition.Fade
-import android.transition.TransitionManager
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.musicplayer.databinding.ActivityMainBinding
-import com.example.musicplayer.ui.albums.album.AlbumFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -27,30 +22,21 @@ class MainActivity : AppCompatActivity() {
         navController = navHostFragment.navController
 
         binding.bottomNavigationView.setupWithNavController(navController)
-        bottomNavigationViewFadeAnimation(binding)
+
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.albumFragment -> hideBottomNav()
+                else -> showBottomNav()
+            }
+        }
     }
 
-    private fun bottomNavigationViewFadeAnimation(binding: ActivityMainBinding) {
-        supportFragmentManager.registerFragmentLifecycleCallbacks(object :
-            FragmentManager.FragmentLifecycleCallbacks() {
-            override fun onFragmentViewCreated(
-                fm: FragmentManager,
-                f: Fragment,
-                v: View,
-                savedInstanceState: Bundle?
-            ) {
-                TransitionManager.beginDelayedTransition(binding.root, Fade().apply {
-                    duration = 300
-                }.excludeTarget(R.id.nav_host_fragment, true))
-                when (f) {
-                    is AlbumFragment -> {
-                        binding.bottomNavigationView.visibility = View.GONE
-                    }
-                    else -> {
-                        binding.bottomNavigationView.visibility = View.VISIBLE
-                    }
-                }
-            }
-        }, true)
+    private fun showBottomNav() {
+        binding.bottomNavigationView.visibility = View.VISIBLE
+    }
+
+    private fun hideBottomNav() {
+        binding.bottomNavigationView.visibility = View.GONE
+
     }
 }

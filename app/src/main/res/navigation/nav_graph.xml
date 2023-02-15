@@ -4,7 +4,7 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/albums">
 
-    <include app:graph="@navigation/home" />
+    <include app:graph="@navigation/favourites" />
     <include app:graph="@navigation/search" />
     <include app:graph="@navigation/albums" />
 </navigation>

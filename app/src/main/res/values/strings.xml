@@ -2,9 +2,9 @@
     <string name="app_name">MusicPlayer</string>
 
     <!--BottomNavigationMenu-->
-    <string name="menu_item_home">Home</string>
-    <string name="menu_item_search">Search</string>
     <string name="menu_item_albums">Albums</string>
+    <string name="menu_item_search">Search</string>
+    <string name="menu_item_favourites">Favourites</string>
 
     <!--AlbumFragmentAppBarMenu-->
     <string name="album_appbar_menu_favorite">Favorite</string>
