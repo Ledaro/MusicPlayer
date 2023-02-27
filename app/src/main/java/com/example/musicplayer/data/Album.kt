@@ -9,5 +9,5 @@ data class Album(
     var title: String,
     var artist: String,
     var image: String,
-    var tracks: List<Song>
+    var duration: String
 ) : Parcelable
