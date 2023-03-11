@@ -98,7 +98,7 @@ class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClic
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.album_menu, menu)
+        inflater.inflate(R.menu.menu_fragment_album, menu)
         super.onCreateOptionsMenu(menu, inflater)
     }
 

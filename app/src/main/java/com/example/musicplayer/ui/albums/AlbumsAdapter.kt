@@ -6,42 +6,67 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewbinding.ViewBinding
 import com.example.musicplayer.data.Album
-import com.example.musicplayer.databinding.ItemAlbumBinding
+import com.example.musicplayer.databinding.GridItemAlbumBinding
+import com.example.musicplayer.databinding.ListItemAlbumBinding
 
-class AlbumsAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<Album, AlbumsAdapter.AlbumsViewHolder>(DiffCallback()) {
+class AlbumsAdapter(private val listener: OnItemClickListener, private val asGrid: Boolean) :
+    ListAdapter<Album, AlbumsAdapter.BaseViewHolder>(DiffCallback()) {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        AlbumsViewHolder(
-            ItemAlbumBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
-        )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        val inflater = LayoutInflater.from(parent.context)
+        return if (asGrid) {
+            GridViewHolder(GridItemAlbumBinding.inflate(inflater, parent, false))
+        } else {
+            ListViewHolder(ListItemAlbumBinding.inflate(inflater, parent, false))
+        }
+    }
 
-    override fun onBindViewHolder(holder: AlbumsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val currentItem = getItem(position)
         holder.bind(currentItem)
     }
 
-    inner class AlbumsViewHolder(private val binding: ItemAlbumBinding) :
+    abstract class BaseViewHolder(binding: ViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
+        abstract fun bind(album: Album)
+    }
+
+    inner class GridViewHolder(private val binding: GridItemAlbumBinding) :
+        BaseViewHolder(binding) {
+
         init {
-            binding.apply {
-                root.setOnClickListener {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val album = getItem(position)
-                        listener.onItemClick(album, albumItemContainer)
-                    }
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val album = getItem(position)
+                    listener.onItemClick(album, binding.albumItemContainer)
                 }
             }
         }
 
-        fun bind(album: Album) {
+        override fun bind(album: Album) {
+            binding.album = album
+            binding.albumItemContainer.transitionName = album.id.toString()
+        }
+    }
+
+    inner class ListViewHolder(private val binding: ListItemAlbumBinding) :
+        BaseViewHolder(binding) {
+
+        init {
+            binding.root.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val album = getItem(position)
+                    listener.onItemClick(album, binding.albumItemContainer)
+                }
+            }
+        }
+
+        override fun bind(album: Album) {
             binding.album = album
             binding.albumItemContainer.transitionName = album.id.toString()
         }

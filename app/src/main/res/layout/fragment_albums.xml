@@ -7,14 +7,28 @@
     android:animateLayoutChanges="true"
     tools:context=".ui.albums.AlbumsFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/albums_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/design_default_color_primary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/menu_fragment_albums"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="@string/albums_app_bar_title" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/albums_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="?actionBarSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="?actionBarSize"/>
+        app:layout_constraintTop_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

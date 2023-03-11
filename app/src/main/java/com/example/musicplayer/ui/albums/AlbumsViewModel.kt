@@ -1,11 +1,14 @@
 package com.example.musicplayer.ui.albums
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.data.Song
+import kotlinx.coroutines.flow.MutableStateFlow
 
 
 class AlbumsViewModel : ViewModel() {
+
 
     private val KillemAll = Album(
         id = 1,
@@ -92,5 +95,24 @@ class AlbumsViewModel : ViewModel() {
     )
 
     val songsList = listOf(Song_1, Song_2, Song_3, Song_4, Song_5)
-    val albums = listOf(KillemAll, RideTheLightning, MasterOfPuppets, AndJusticeForAll, BlackAlbum)
+
+    val alphaSort = MutableStateFlow(false)
+    var isGridView = true
+
+    fun toggleGridView() {
+        isGridView = !isGridView
+    }
+
+    var albums =
+        mutableListOf(KillemAll, RideTheLightning, MasterOfPuppets, AndJusticeForAll, BlackAlbum)
+
+/*    fun sortAlbums(){
+        if (!alphaSort.value){
+            albums = mutableListOf(KillemAll, RideTheLightning, MasterOfPuppets, AndJusticeForAll, BlackAlbum)
+        } else {
+            albums = mutableListOf(RideTheLightning, RideTheLightning, RideTheLightning, RideTheLightning, RideTheLightning)
+        }
+    }*/
+
+    val albumsLiveData = MutableLiveData<List<Album>>(albums)
 }

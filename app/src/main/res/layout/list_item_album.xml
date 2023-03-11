@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="album"
+            type="com.example.musicplayer.data.Album" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/album_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="16dp"
+            android:paddingLeft="16dp"
+            android:paddingTop="12dp"
+            android:paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="12dp">
+
+            <ImageView
+                android:id="@+id/album_item_imageView"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                app:image_url="@{album.image}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="?attr/shapeAppearanceMediumComponent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/album_item_name_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{album.title}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                app:layout_constraintBottom_toTopOf="@+id/album_artist_text_view"
+                app:layout_constraintEnd_toStartOf="@id/album_duration"
+                app:layout_constraintStart_toEndOf="@+id/album_item_imageView"
+                app:layout_constraintTop_toTopOf="@+id/album_item_imageView"
+                tools:text="Master of Puppets" />
+
+            <TextView
+                android:id="@+id/album_artist_text_view"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@{album.artist}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="#73000000"
+                app:layout_constraintBottom_toBottomOf="@+id/album_item_imageView"
+                app:layout_constraintEnd_toStartOf="@id/album_duration"
+                app:layout_constraintStart_toEndOf="@+id/album_item_imageView"
+                app:layout_constraintTop_toBottomOf="@id/album_item_name_text_view"
+                tools:text="Metallica" />
+
+            <TextView
+                android:id="@+id/album_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/album_artist_text_view"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/album_item_name_text_view"
+                tools:text="52 mins" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+</layout>

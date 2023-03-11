@@ -7,7 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
@@ -22,20 +24,22 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAlbumsBinding.bind(view)
-        val albumsAdapter = AlbumsAdapter(this)
 
         postponeEnterTransition()
         binding.albumsRecyclerView.post { startPostponedEnterTransition() }
 
-        binding.apply {
-            albumsRecyclerView.apply {
-                adapter = albumsAdapter
-                layoutManager = GridLayoutManager(requireContext(), 2)
-                setHasFixedSize(true)
+        setUpRecyclerview(viewModel.isGridView)
+
+        binding.albumsToolbar.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.action_change_view_type -> {
+                    viewModel.toggleGridView()
+                    setUpRecyclerview(viewModel.isGridView)
+                    true
+                }
+                else -> false
             }
         }
-
-        albumsAdapter.submitList(viewModel.albums)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +58,39 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         findNavController().navigate(action, extras)
     }
 
+    private fun setUpRecyclerview(isGridView: Boolean) {
+        val albumsAdapter = AlbumsAdapter(this, isGridView)
+
+        if (isGridView) {
+            binding.apply {
+                albumsRecyclerView.apply {
+                    adapter = albumsAdapter
+                    layoutManager = GridLayoutManager(requireContext(), 2)
+                    removeItemDecoration(
+                        DividerItemDecoration(
+                            context,
+                            DividerItemDecoration.VERTICAL
+                        )
+                    )
+                    setHasFixedSize(true)
+                }
+            }
+
+        } else {
+            binding.apply {
+                albumsRecyclerView.apply {
+                    adapter = albumsAdapter
+                    layoutManager = LinearLayoutManager(requireContext())
+                    addItemDecoration(
+                        DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+                    )
+                    setHasFixedSize(true)
+                }
+            }
+        }
+        albumsAdapter.submitList(viewModel.albums)
+        albumsAdapter.notifyDataSetChanged()
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

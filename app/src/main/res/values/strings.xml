@@ -6,11 +6,21 @@
     <string name="menu_item_search">Search</string>
     <string name="menu_item_favourites">Favourites</string>
 
-    <!--AlbumFragmentAppBarMenu-->
-    <string name="album_appbar_menu_favorite">Favorite</string>
-    <string name="album_appbar_menu_other">Other</string>
+    <!--AlbumsFragmentAppBarMenu-->
+    <string name="albums_menu_item_sort">Sort</string>
+    <string name="albums_menu_item_list_type">Toggle list type</string>
+    <string name="albums_menu_sort_title" description="Name of the sort list button">Sort</string>
+    <string name="albums_menu_list_type_title" description="Name of the list type toggle button">Toggle list type</string>
 
-    <!--AlbumFragment -->
+    <!--AlbumsFragment-->
+    <string name="albums_app_bar_title">Albums</string>
+    <string name="music_player_album_duration" description="Duration of the album">52 mins</string>
+
+    <!--AlbumFragmentAppBarMenu-->
+    <string name="album_menu_item_favorite">Favorite</string>
+    <string name="album_menu_item_other">Other</string>
+
+    <!--AlbumFragment-->
     <string name="album_cover">Album cover</string>
     <string name="music_player_progress_indicator">Music progress indicator</string>
     <string name="music_player_pause_button">Pause button</string>
@@ -20,10 +30,5 @@
     <string name="music_player_volume_down_button">Volume down button</string>
     <string name="music_player_volume_slider">Volume slider</string>
     <string name="music_player_volume_up_button">Volume up button</string>
-
-    <!--AlbumsFragmentAppBar --> TODO()
-    <string name="music_player_lib_menu_sort_title" description="Name of the sort list button">Sort</string>
-    <string name="music_player_lib_menu_list_type_title" description="Name of the list type toggle button">Toggle list type</string>
-    <string name="music_player_album_duration" description="Duration of the album">52 mins</string>
 
 </resources>

@@ -4,11 +4,11 @@
 
     <item
         android:icon="@drawable/ic_heart"
-        android:title="@string/album_appbar_menu_favorite"
+        android:title="@string/album_menu_item_favorite"
         app:showAsAction="always" />
 
     <item
-        android:title="@string/album_appbar_menu_other"
+        android:title="@string/album_menu_item_other"
         app:showAsAction="never" />
 
 </menu>
