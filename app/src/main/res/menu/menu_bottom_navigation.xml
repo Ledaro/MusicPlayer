@@ -4,19 +4,19 @@
     <item
         android:id="@+id/albums"
         android:enabled="true"
-        android:icon="@drawable/ic_album"
+        android:icon="@drawable/ic_metallica_m"
         android:title="@string/menu_item_albums" />
 
     <item
         android:id="@+id/search"
         android:enabled="true"
-        android:icon="@drawable/ic_search"
+        android:icon="@drawable/ic_metallica_star"
         android:title="@string/menu_item_search" />
 
     <item
         android:id="@+id/favourites"
         android:enabled="true"
-        android:icon="@drawable/ic_heart_black"
+        android:icon="@drawable/ic_metallica_snake"
         android:title="@string/menu_item_favourites" />
 
 </menu>
