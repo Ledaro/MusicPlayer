@@ -68,6 +68,7 @@ class AlbumsAdapter(private val listener: OnItemClickListener, private val asGri
 
         override fun bind(album: Album) {
             binding.album = album
+            binding.albumDuration.text = album.duration
             binding.albumItemContainer.transitionName = album.id.toString()
         }
     }

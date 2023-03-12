@@ -1,8 +1,11 @@
 package com.example.musicplayer.ui.albums
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
+import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -10,43 +13,45 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.transition.Transition
+import androidx.transition.TransitionManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
-import com.google.android.material.transition.MaterialFade
+import com.google.android.material.transition.MaterialElevationScale
 import com.google.android.material.transition.MaterialFadeThrough
+import com.google.android.material.transition.MaterialSharedAxis
 
 class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemClickListener {
     private var _binding: FragmentAlbumsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AlbumsViewModel by viewModels()
+    private val isListSorted: Boolean = false
+    private var listState: Parcelable? = null
+
+    companion object {
+        private val ALBUM_RECYCLER_VIEW_ID = ViewCompat.generateViewId()
+        private const val GRID_SPAN_COUNT = 2
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAlbumsBinding.bind(view)
 
-        postponeEnterTransition()
-        binding.albumsRecyclerView.post { startPostponedEnterTransition() }
-
-        setUpRecyclerview(viewModel.isGridView)
+        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        setList(viewModel.isGridView, isListSorted, sharedAxis)
 
         binding.albumsToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_change_view_type -> {
                     viewModel.toggleGridView()
-                    setUpRecyclerview(viewModel.isGridView)
+                    val fadeThrough = MaterialFadeThrough()
+                    setList(viewModel.isGridView, isListSorted, fadeThrough)
                     true
                 }
                 else -> false
             }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enterTransition = MaterialFadeThrough()
-        exitTransition = MaterialFade().apply {
-            duration = 150
         }
     }
 
@@ -56,44 +61,82 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         )
         val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(album)
         findNavController().navigate(action, extras)
+
+        exitTransition = MaterialElevationScale(false).apply {
+            duration = 150
+        }
     }
 
-    private fun setUpRecyclerview(isGridView: Boolean) {
-        val albumsAdapter = AlbumsAdapter(this, isGridView)
+    private fun createRecyclerView(isGridView: Boolean): RecyclerView {
+        val recyclerView = RecyclerView(requireContext())
+        recyclerView.id = ALBUM_RECYCLER_VIEW_ID
+        recyclerView.layoutParams =
+            FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT
+            )
+        val verticalPadding =
+            resources.getDimensionPixelSize(R.dimen.cat_music_player_album_list_padding_vertical)
+        recyclerView.setPadding(0, verticalPadding, 0, verticalPadding)
+        recyclerView.clipToPadding = false
 
         if (isGridView) {
-            binding.apply {
-                albumsRecyclerView.apply {
-                    adapter = albumsAdapter
-                    layoutManager = GridLayoutManager(requireContext(), 2)
-                    removeItemDecoration(
-                        DividerItemDecoration(
-                            context,
-                            DividerItemDecoration.VERTICAL
-                        )
-                    )
-                    setHasFixedSize(true)
-                }
-            }
-
+            recyclerView.layoutManager = GridLayoutManager(requireContext(), GRID_SPAN_COUNT)
         } else {
-            binding.apply {
-                albumsRecyclerView.apply {
-                    adapter = albumsAdapter
-                    layoutManager = LinearLayoutManager(requireContext())
-                    addItemDecoration(
-                        DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-                    )
-                    setHasFixedSize(true)
-                }
-            }
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            recyclerView.addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                )
+            )
         }
-        albumsAdapter.submitList(viewModel.albums)
-        albumsAdapter.notifyDataSetChanged()
+
+        recyclerView.isTransitionGroup
+        recyclerView.setHasFixedSize(true)
+        postponeEnterTransition()
+
+        return recyclerView
+    }
+
+    private fun setList(isGridView: Boolean, isListSorted: Boolean, transition: Transition) {
+        val recyclerView = createRecyclerView(isGridView)
+        val listContainer = binding.listContainer
+
+        if (listState != null) {
+            recyclerView.layoutManager?.onRestoreInstanceState(listState)
+            listState = null
+        }
+        transition.addTarget(recyclerView)
+
+        val currentRecyclerView = listContainer.getChildAt(0)
+        if (currentRecyclerView != null) {
+            transition.addTarget(currentRecyclerView)
+        }
+
+        TransitionManager.beginDelayedTransition(listContainer, transition)
+
+        val adapter = AlbumsAdapter(this, isGridView)
+        recyclerView.adapter = adapter
+
+        val albums = viewModel.albums
+        if (isListSorted) {
+            albums.reverse()
+        }
+        adapter.submitList(albums)
+
+        listContainer.removeAllViews()
+        listContainer.addView(recyclerView)
+        recyclerView.post { startPostponedEnterTransition() }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        val rv =
+            requireView().findViewById<RecyclerView>(ALBUM_RECYCLER_VIEW_ID)
+        if (rv != null) {
+            listState = rv.layoutManager!!.onSaveInstanceState()
+        }
         _binding = null
+        super.onDestroyView()
     }
 }
