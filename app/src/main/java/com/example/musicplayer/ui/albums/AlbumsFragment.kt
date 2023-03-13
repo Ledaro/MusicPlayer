@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.cardview.widget.CardView
 import androidx.core.view.ViewCompat
+import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.FragmentNavigatorExtras
@@ -19,7 +20,7 @@ import androidx.transition.TransitionManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
-import com.google.android.material.transition.MaterialElevationScale
+import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialFadeThrough
 import com.google.android.material.transition.MaterialSharedAxis
 
@@ -27,7 +28,6 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
     private var _binding: FragmentAlbumsBinding? = null
     private val binding get() = _binding!!
     private val viewModel: AlbumsViewModel by viewModels()
-    private val isListSorted: Boolean = false
     private var listState: Parcelable? = null
 
     companion object {
@@ -39,15 +39,26 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAlbumsBinding.bind(view)
 
-        val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Z, true)
-        setList(viewModel.isGridView, isListSorted, sharedAxis)
+        postponeEnterTransition()
+        view.doOnPreDraw { startPostponedEnterTransition() }
+        exitTransition = null
+
+        setList(
+            viewModel.isGridView,
+            viewModel.isListSorted,
+            MaterialSharedAxis(MaterialSharedAxis.Z, true)
+        )
 
         binding.albumsToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_change_view_type -> {
                     viewModel.toggleGridView()
-                    val fadeThrough = MaterialFadeThrough()
-                    setList(viewModel.isGridView, isListSorted, fadeThrough)
+                    setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
+                    true
+                }
+                R.id.action_sort_by_alpha -> {
+                    viewModel.toggleListSorting()
+                    setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
                     true
                 }
                 else -> false
@@ -62,8 +73,8 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(album)
         findNavController().navigate(action, extras)
 
-        exitTransition = MaterialElevationScale(false).apply {
-            duration = 150
+        exitTransition = Hold().apply {
+            duration = 300
         }
     }
 
@@ -94,7 +105,6 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
 
         recyclerView.isTransitionGroup
         recyclerView.setHasFixedSize(true)
-        postponeEnterTransition()
 
         return recyclerView
     }
@@ -119,15 +129,15 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         val adapter = AlbumsAdapter(this, isGridView)
         recyclerView.adapter = adapter
 
-        val albums = viewModel.albums
+        var albums = viewModel.albums
+
         if (isListSorted) {
-            albums.reverse()
+            albums = viewModel.albumsSorted.toMutableList()
         }
         adapter.submitList(albums)
 
         listContainer.removeAllViews()
         listContainer.addView(recyclerView)
-        recyclerView.post { startPostponedEnterTransition() }
     }
 
     override fun onDestroyView() {
