@@ -3,9 +3,8 @@ package com.example.musicplayer.ui.albums.album
 import android.animation.LayoutTransition
 import android.graphics.Color
 import android.os.Bundle
-import android.view.*
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
@@ -23,70 +22,52 @@ import com.google.android.material.transition.MaterialContainerTransform
 class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClickListener {
     private val args: AlbumFragmentArgs by navArgs()
     private val viewModel: AlbumsViewModel by viewModels()
-    private lateinit var binding: FragmentAlbumBinding
+    private var _binding: FragmentAlbumBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
 
         sharedElementEnterTransition = containerTransformEnterTransition(true)
         sharedElementReturnTransition = containerTransformEnterTransition(false)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_album, container, false)
-        (activity as AppCompatActivity).setSupportActionBar(binding.albumToolbar)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        _binding = FragmentAlbumBinding.bind(view)
+
+        val songsAdapter = SongsAdapter(this)
+        val album = viewModel.albums.find { it.id == args.album.id }
 
         binding.apply {
-            albumFab.setOnClickListener {
-                TransitionManager.beginDelayedTransition(
-                    container!!, containerTransformFabToMusicPlayerTransform(
-                        albumFab,
-                        albumMusicPlayerContainer,
-                        true
-                    )
-                )
-                albumFab.visibility = View.GONE
-                albumMusicPlayerContainer.visibility = View.VISIBLE
+            root.transitionName = args.album.id.toString()
 
-                albumNestedScrollView.layoutTransition
-                    .enableTransitionType(LayoutTransition.CHANGING)
+            binding.album = album
+
+            albumFab.setOnClickListener {
+                onFabClick()
             }
 
             albumMusicPlayerContainer.setOnClickListener {
-                TransitionManager.beginDelayedTransition(
-                    container!!,
-                    containerTransformFabToMusicPlayerTransform(
-                        albumMusicPlayerContainer,
-                        albumFab,
-                        false
-                    )
-                )
-                albumMusicPlayerContainer.visibility = View.GONE
-                albumFab.visibility = View.VISIBLE
+                onMusicPlayerClick()
             }
-        }
 
-        return binding.root
-    }
+            songsRecyclerview.apply {
+                adapter = songsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+                addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
+                setHasFixedSize(true)
+            }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        binding.root.transitionName = args.album.id.toString()
-        val album = viewModel.albums.find { it.id == args.album.id }
-        val songsAdapter = SongsAdapter(this)
-        binding.album = album
+            albumToolbar.apply {
+                setNavigationOnClickListener {
+                    activity?.onBackPressed()
+                }
 
-        binding.songsRecyclerview.apply {
-            adapter = songsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
-            setHasFixedSize(true)
+                setOnClickListener {
+
+                }
+            }
         }
 
         songsAdapter.submitList(filterSongsByAlbum(viewModel.songsList, album!!.title))
@@ -94,20 +75,6 @@ class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClic
 
     private fun filterSongsByAlbum(songs: List<Song>, albumName: String): List<Song> {
         return songs.filter { it.album.lowercase() == albumName.lowercase() }
-    }
-
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.menu_fragment_album, menu)
-        super.onCreateOptionsMenu(menu, inflater)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            activity?.onBackPressed()
-            return true
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun containerTransformFabToMusicPlayerTransform(
@@ -130,5 +97,36 @@ class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClic
 
     override fun onItemClick(song: Song) {
         TODO("Not yet implemented")
+    }
+
+    private fun onFabClick() {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(
+                binding.root as ViewGroup, containerTransformFabToMusicPlayerTransform(
+                    albumFab,
+                    albumMusicPlayerContainer,
+                    true
+                )
+            )
+            albumFab.visibility = View.GONE
+            albumMusicPlayerContainer.visibility = View.VISIBLE
+            albumNestedScrollView.layoutTransition
+                .enableTransitionType(LayoutTransition.CHANGING)
+        }
+    }
+
+    private fun onMusicPlayerClick() {
+        binding.apply {
+            TransitionManager.beginDelayedTransition(
+                binding.root as ViewGroup,
+                containerTransformFabToMusicPlayerTransform(
+                    albumMusicPlayerContainer,
+                    albumFab,
+                    false
+                )
+            )
+            albumMusicPlayerContainer.visibility = View.GONE
+            albumFab.visibility = View.VISIBLE
+        }
     }
 }

@@ -41,6 +41,7 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
 
         postponeEnterTransition()
         view.doOnPreDraw { startPostponedEnterTransition() }
+
         exitTransition = null
 
         setList(
@@ -52,14 +53,13 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         binding.albumsToolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.action_change_view_type -> {
-                    viewModel.toggleGridView()
-                    setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
+                    onViewToggleClick()
                     true
                 }
                 R.id.action_sort_by_alpha -> {
-                    viewModel.toggleListSorting()
-                    setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
+                    onSortClick()
                     true
+
                 }
                 else -> false
             }
@@ -112,6 +112,9 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
     private fun setList(isGridView: Boolean, isListSorted: Boolean, transition: Transition) {
         val recyclerView = createRecyclerView(isGridView)
         val listContainer = binding.listContainer
+        val currentRecyclerView = listContainer.getChildAt(0)
+        val adapter = AlbumsAdapter(this, isGridView)
+        var albums = viewModel.albums
 
         if (listState != null) {
             recyclerView.layoutManager?.onRestoreInstanceState(listState)
@@ -119,17 +122,12 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         }
         transition.addTarget(recyclerView)
 
-        val currentRecyclerView = listContainer.getChildAt(0)
         if (currentRecyclerView != null) {
             transition.addTarget(currentRecyclerView)
         }
-
         TransitionManager.beginDelayedTransition(listContainer, transition)
 
-        val adapter = AlbumsAdapter(this, isGridView)
         recyclerView.adapter = adapter
-
-        var albums = viewModel.albums
 
         if (isListSorted) {
             albums = viewModel.albumsSorted.toMutableList()
@@ -138,6 +136,16 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
 
         listContainer.removeAllViews()
         listContainer.addView(recyclerView)
+    }
+
+    private fun onViewToggleClick() {
+        viewModel.toggleGridView()
+        setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
+    }
+
+    private fun onSortClick() {
+        viewModel.toggleListSorting()
+        setList(viewModel.isGridView, viewModel.isListSorted, MaterialFadeThrough())
     }
 
     override fun onDestroyView() {
