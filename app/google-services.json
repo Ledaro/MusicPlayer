@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "165114311914",
+    "project_id": "metallicamusicplayer",
+    "storage_bucket": "metallicamusicplayer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165114311914:android:7165471acc9fd734285393",
+        "android_client_info": {
+          "package_name": "com.example.musicplayer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165114311914-u9ifsd1ppsrlm3cga23ns8uvtu5i3lm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Q-cLlmBtKyrOW_9gS45I2o2jOXBnjGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165114311914-u9ifsd1ppsrlm3cga23ns8uvtu5i3lm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:165114311914:android:4a257ac951f05f8f285393",
+        "android_client_info": {
+          "package_name": "com.example.unsplashimagesearchapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "165114311914-u9ifsd1ppsrlm3cga23ns8uvtu5i3lm4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC2Q-cLlmBtKyrOW_9gS45I2o2jOXBnjGw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "165114311914-u9ifsd1ppsrlm3cga23ns8uvtu5i3lm4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

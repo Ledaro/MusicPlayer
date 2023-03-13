@@ -39,7 +39,7 @@ class AlbumsAdapter(private val listener: OnItemClickListener, private val asGri
 
         init {
             binding.root.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val album = getItem(position)
                     listener.onItemClick(album, binding.albumItemContainer)
@@ -58,7 +58,7 @@ class AlbumsAdapter(private val listener: OnItemClickListener, private val asGri
 
         init {
             binding.root.setOnClickListener {
-                val position = adapterPosition
+                val position = bindingAdapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val album = getItem(position)
                     listener.onItemClick(album, binding.albumItemContainer)

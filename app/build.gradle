@@ -12,7 +12,7 @@ android {
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.example.unsplashimagesearchapp"
+        applicationId "com.example.musicplayer"
         minSdk 27
         targetSdk 32
         versionCode 1
@@ -44,21 +44,20 @@ android {
 }
 
 dependencies {
-    def ktx_version = '1.9.0'
-    def appcompat_version = '1.6.1'
-    def material_version = '1.8.0'
+    def ktx_version = "1.7.0"
+    def appcompat_version = "1.5.1"
+    def material_version = "1.7.0"
     def constraintLayout_version = "2.1.4"
     def junit_version = "4.13.2"
-    def lifecycle_version = '2.6.0'
+    def lifecycle_version = "2.5.1"
     def nav_version = "2.5.3"
-    def hilt_version = '2.45'
+    def hilt_version = "2.44"
     def timber_version = "5.0.1"
-    def exoplayer_version = "2.18.4"
-    def firebase_firestore_version = "24.4.4"
-    def firebase_storage_version = "20.1.0"
-    def firebase_coroutines_version = "1.6.4"
-    def glide_version = '4.15.0'
-    def coroutines_version = "1.6.4"
+    def exoplayer_version = "2.15.1"
+    def firebase_bom_version = "31.2.3"
+    def ktx_coroutines_play_services_version = "1.6.4"
+    def glide_version = "4.14.2"
+    def coroutines_version = "1.3.9"
     def test_junit_version = "1.1.5"
     def test_espresso_version = "3.5.1"
 
@@ -96,14 +95,17 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayer_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
 
+    //Firebase BoM
+    implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
+
     //Firebase Firestore
-    implementation "com.google.firebase:firebase-firestore:$firebase_firestore_version"
+    implementation 'com.google.firebase:firebase-firestore'
 
     //Firebase Storage
-    implementation "com.google.firebase:firebase-storage:$firebase_storage_version"
+    implementation 'com.google.firebase:firebase-storage'
 
-    //Firebase Coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$firebase_coroutines_version"
+    //Kotlinx Coroutines Play Services
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:$ktx_coroutines_play_services_version"
 }
 
 kapt {
