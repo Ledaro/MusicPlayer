@@ -11,6 +11,7 @@ data class Song(
     var imageUrl: String = "",
     var isPlaying: Boolean = false,
     var songUrl: String = "",
+    var subtitle: String = "",
     var title: String = "",
     var trackNumber: Int = 1
 
