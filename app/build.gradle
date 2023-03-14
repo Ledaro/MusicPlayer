@@ -53,7 +53,7 @@ dependencies {
     def nav_version = "2.5.3"
     def hilt_version = "2.44"
     def timber_version = "5.0.1"
-    def exoplayer_version = "2.15.1"
+    def exoplayer_version = "2.14.0"
     def firebase_bom_version = "31.2.3"
     def ktx_coroutines_play_services_version = "1.6.4"
     def glide_version = "4.14.2"
@@ -91,9 +91,8 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
 
     //ExoPlayer
-    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayer_version"
-    implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayer_version"
-    implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayer_version"
+    implementation "com.google.android.exoplayer:exoplayer:$exoplayer_version"
+    implementation "com.google.android.exoplayer:extension-mediasession:$exoplayer_version"
 
     //Firebase BoM
     implementation platform("com.google.firebase:firebase-bom:$firebase_bom_version")
@@ -110,4 +109,5 @@ dependencies {
 
 kapt {
     correctErrorTypes = true
+    generateStubs = true
 }

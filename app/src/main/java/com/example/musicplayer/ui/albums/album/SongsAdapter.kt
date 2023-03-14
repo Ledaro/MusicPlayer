@@ -31,7 +31,7 @@ class SongsAdapter(private val listener: OnItemClickListener) :
         init {
             binding.apply {
                 root.setOnClickListener {
-                    val position = bindingAdapterPosition
+                    val position = adapterPosition
                     if (position != RecyclerView.NO_POSITION) {
                         val song = getItem(position)
                         listener.onItemClick(song)
