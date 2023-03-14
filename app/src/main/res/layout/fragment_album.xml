@@ -6,7 +6,7 @@
     <data>
         <variable
             name="album"
-            type="com.example.musicplayer.data.Album" />
+            type="com.example.musicplayer.data.entities.Album" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

@@ -1,8 +1,8 @@
 package com.example.musicplayer.ui.albums
 
 import androidx.lifecycle.ViewModel
-import com.example.musicplayer.data.Album
-import com.example.musicplayer.data.Song
+import com.example.musicplayer.data.entities.Album
+import com.example.musicplayer.data.entities.Song
 
 class AlbumsViewModel : ViewModel() {
 
@@ -45,7 +45,11 @@ class AlbumsViewModel : ViewModel() {
         image = "https://m.media-amazon.com/images/I/411pMy47xvS._AC_SL1400_.jpg",
         duration = "65:12"
     )
-    private val Song_1 = Song(
+
+    private val Song = com.example.musicplayer.data.entities.Song(
+
+    )
+/*    private val Song_1 = Song(
         id = 1,
         album = "Master of Puppets",
         title = "Song_1",
@@ -88,9 +92,9 @@ class AlbumsViewModel : ViewModel() {
         duration = "5:55",
         isPlaying = true
 
-    )
+    )*/
 
-    val songsList = listOf(Song_1, Song_2, Song_3, Song_4, Song_5)
+    val songsList = emptyList<Song>()
     var isGridView = true
     var isListSorted = false
 

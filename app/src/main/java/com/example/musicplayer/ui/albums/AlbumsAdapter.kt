@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.musicplayer.data.Album
+import com.example.musicplayer.data.entities.Album
 import com.example.musicplayer.databinding.GridItemAlbumBinding
 import com.example.musicplayer.databinding.ListItemAlbumBinding
 

@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.transition.Transition
 import androidx.transition.TransitionManager
 import com.example.musicplayer.R
-import com.example.musicplayer.data.Album
+import com.example.musicplayer.data.entities.Album
 import com.example.musicplayer.databinding.FragmentAlbumsBinding
 import com.google.android.material.transition.Hold
 import com.google.android.material.transition.MaterialFadeThrough

@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.RequestManager
 import com.example.musicplayer.databinding.ActivityMainBinding
-import com.google.firebase.firestore.FirebaseFirestore
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-
-
-
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var glide: RequestManager
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 

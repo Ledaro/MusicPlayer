@@ -1,4 +1,4 @@
-package com.example.musicplayer.data
+package com.example.musicplayer.data.entities
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
