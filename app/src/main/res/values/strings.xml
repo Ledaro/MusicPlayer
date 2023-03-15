@@ -31,4 +31,10 @@
     <string name="music_player_volume_slider">Volume slider</string>
     <string name="music_player_volume_up_button">Volume up button</string>
 
+    <!--MusicNotificationManager-->
+    <string name="notification_channel_name">Music Channel</string>
+    <string name="notification_channel_description">Shows the currently playing music</string>
+
+
+
 </resources>
