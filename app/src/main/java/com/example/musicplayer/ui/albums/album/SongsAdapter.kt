@@ -41,7 +41,6 @@ class SongsAdapter(private val listener: OnItemClickListener) :
         }
 
         fun bind(song: Song) {
-            binding.song = song
         }
     }
 
@@ -52,7 +51,7 @@ class SongsAdapter(private val listener: OnItemClickListener) :
     companion object {
         class DiffCallback : DiffUtil.ItemCallback<Song>() {
             override fun areItemsTheSame(oldItem: Song, newItem: Song) =
-                oldItem.id == newItem.id
+                oldItem.mediaId == newItem.mediaId
 
             override fun areContentsTheSame(oldItem: Song, newItem: Song) =
                 oldItem == newItem

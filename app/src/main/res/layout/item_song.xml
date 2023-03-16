@@ -8,7 +8,7 @@
 
         <variable
             name="song"
-            type="com.example.musicplayer.data.entities.Song" />
+            type="com.example.musicplayer.data.entities.SongOld" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

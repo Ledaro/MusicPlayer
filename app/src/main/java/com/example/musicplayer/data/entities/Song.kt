@@ -5,14 +5,10 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Song(
-    var album: String = "",
-    var duration: String = "",
-    var id: String = "",
-    var imageUrl: String = "",
-    var isPlaying: Boolean = false,
-    var songUrl: String = "",
-    var subtitle: String = "",
-    var title: String = "",
-    var trackNumber: Int = 1
+    val mediaId: String = "",
+    val title: String = "",
+    val subtitle: String = "",
+    val songUrl: String = "",
+    val imageUrl: String = ""
 
 ) : Parcelable

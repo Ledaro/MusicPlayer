@@ -70,12 +70,12 @@ class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClic
             }
         }
 
-        songsAdapter.submitList(filterSongsByAlbum(viewModel.songsList, album!!.title))
+/*        songsAdapter.submitList(filterSongsByAlbum(viewModel.songsList, album!!.title))*/
     }
 
-    private fun filterSongsByAlbum(songs: List<Song>, albumName: String): List<Song> {
+/*    private fun filterSongsByAlbum(songs: List<`Song(old)`>, albumName: String): List<`Song(old)`> {
         return songs.filter { it.album.lowercase() == albumName.lowercase() }
-    }
+    }*/
 
     private fun containerTransformFabToMusicPlayerTransform(
         startView: View, endView: View, entering: Boolean,

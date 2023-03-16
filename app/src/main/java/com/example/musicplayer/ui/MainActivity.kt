@@ -1,4 +1,4 @@
-package com.example.musicplayer
+package com.example.musicplayer.ui
 
 import android.os.Bundle
 import android.view.View
@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.RequestManager
+import com.example.musicplayer.R
 import com.example.musicplayer.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
