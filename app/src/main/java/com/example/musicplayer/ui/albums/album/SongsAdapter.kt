@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.musicplayer.data.entities.Song
+import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.ItemSongBinding
 
 class SongsAdapter(private val listener: OnItemClickListener) :
-    ListAdapter<Song, SongsAdapter.SongsViewHolder>(DiffCallback()) {
+    ListAdapter<SongNew, SongsAdapter.SongsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         SongsViewHolder(
@@ -40,20 +40,21 @@ class SongsAdapter(private val listener: OnItemClickListener) :
             }
         }
 
-        fun bind(song: Song) {
+        fun bind(songNew: SongNew) {
+/*            binding.song = song*/
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(song: Song)
+        fun onItemClick(songNew: SongNew)
     }
 
     companion object {
-        class DiffCallback : DiffUtil.ItemCallback<Song>() {
-            override fun areItemsTheSame(oldItem: Song, newItem: Song) =
+        class DiffCallback : DiffUtil.ItemCallback<SongNew>() {
+            override fun areItemsTheSame(oldItem: SongNew, newItem: SongNew) =
                 oldItem.mediaId == newItem.mediaId
 
-            override fun areContentsTheSame(oldItem: Song, newItem: Song) =
+            override fun areContentsTheSame(oldItem: SongNew, newItem: SongNew) =
                 oldItem == newItem
         }
     }

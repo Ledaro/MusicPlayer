@@ -2,7 +2,8 @@ package com.example.musicplayer.ui.albums
 
 import androidx.lifecycle.ViewModel
 import com.example.musicplayer.data.entities.Album
-import com.example.musicplayer.data.entities.`Song(old)`
+import com.example.musicplayer.data.entities.SongNew
+import com.example.musicplayer.data.entities.Song
 
 class AlbumsViewModel : ViewModel() {
 
@@ -46,7 +47,7 @@ class AlbumsViewModel : ViewModel() {
         duration = "65:12"
     )
 
-    private val Song = com.example.musicplayer.data.entities.`Song(old)`(
+    private val Song = Song(
 
     )
 /*    private val Song_1 = Song(
@@ -94,7 +95,7 @@ class AlbumsViewModel : ViewModel() {
 
     )*/
 
-    val songsList = emptyList<`Song(old)`>()
+    val songsList = emptyList<SongNew>()
     var isGridView = true
     var isListSorted = false
 

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
 import com.example.musicplayer.R
-import com.example.musicplayer.data.entities.Song
+import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.FragmentAlbumBinding
 import com.example.musicplayer.ui.albums.AlbumsViewModel
 import com.example.musicplayer.util.themeColor
@@ -95,7 +95,7 @@ class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClic
             setAllContainerColors(requireContext().themeColor(com.google.android.material.R.attr.colorSurface))
         }
 
-    override fun onItemClick(song: Song) {
+    override fun onItemClick(songNew: SongNew) {
         TODO("Not yet implemented")
     }
 

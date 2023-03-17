@@ -8,7 +8,7 @@
 
         <variable
             name="song"
-            type="com.example.musicplayer.data.entities.SongOld" />
+            type="com.example.musicplayer.data.entities.Song" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,13 +24,14 @@
             android:id="@+id/playing_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{song.playing ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_volume_up_black"
             app:tint="@color/material_on_surface_emphasis_medium"
             tools:visibility="visible" />
+
+<!--        android:visibility="@{song.playing ? View.VISIBLE : View.GONE}"-->
 
         <TextView
             android:id="@+id/track_number"

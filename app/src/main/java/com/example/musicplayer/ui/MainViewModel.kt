@@ -5,7 +5,7 @@ import android.support.v4.media.MediaMetadataCompat.METADATA_KEY_MEDIA_ID
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.musicplayer.data.entities.Song
+import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.exoplayer.MusicServiceConnection
 import com.example.musicplayer.exoplayer.isPlayEnabled
 import com.example.musicplayer.exoplayer.isPlaying
@@ -19,8 +19,8 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     private val musicServiceConnection: MusicServiceConnection
 ) : ViewModel() {
-    private val _mediaItems = MutableLiveData<Resource<List<Song>>>()
-    val mediaItems: LiveData<Resource<List<Song>>> = _mediaItems
+    private val _mediaItems = MutableLiveData<Resource<List<SongNew>>>()
+    val mediaItems: LiveData<Resource<List<SongNew>>> = _mediaItems
 
     val isConnected = musicServiceConnection.isConnected
     val networkError = musicServiceConnection.networkError
@@ -38,7 +38,7 @@ class MainViewModel @Inject constructor(
                 ) {
                     super.onChildrenLoaded(parentId, children)
                     val items = children.map {
-                        `Song`(
+                        SongNew(
                             it.mediaId!!,
                             it.description.title.toString(),
                             it.description.subtitle.toString(),
@@ -63,7 +63,7 @@ class MainViewModel @Inject constructor(
         musicServiceConnection.transportControls.seekTo(position)
     }
 
-    fun playOrToggleSong(mediaItem: Song, toggle: Boolean = false) {
+    fun playOrToggleSong(mediaItem: SongNew, toggle: Boolean = false) {
         val isPrepared = playbackState.value?.isPrepared ?: false
         if (isPrepared && mediaItem.mediaId == currentPlayingSong.value?.getString(
                 METADATA_KEY_MEDIA_ID
