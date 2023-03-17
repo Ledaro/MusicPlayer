@@ -20,7 +20,7 @@ import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
 
 class AlbumFragment : Fragment(R.layout.fragment_album), SongsAdapter.OnItemClickListener {
-    private val args: AlbumFragmentArgs by navArgs()
+    private val args: AlbumFragmentNewArgs by navArgs()
     private val viewModel: AlbumsViewModel by viewModels()
     private var _binding: FragmentAlbumBinding? = null
     private val binding get() = _binding!!

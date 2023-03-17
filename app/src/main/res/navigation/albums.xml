@@ -11,14 +11,13 @@
         android:label="fragment_albums"
         tools:layout="@layout/fragment_albums">
         <action
-            android:id="@+id/action_albumsFragment_to_albumFragment"
-            app:destination="@id/albumFragment" />
+            android:id="@+id/action_albumsFragment_to_albumFragmentNew"
+            app:destination="@id/albumFragmentNew" />
     </fragment>
     <fragment
-        android:id="@+id/albumFragment"
-        android:name="com.example.musicplayer.ui.albums.album.AlbumFragment"
-        android:label="fragment_album"
-        tools:layout="@layout/fragment_album" >
+        android:id="@+id/albumFragmentNew"
+        android:name="com.example.musicplayer.ui.albums.album.AlbumFragmentNew"
+        android:label="AlbumFragmentNew" >
         <argument
             android:name="album"
             app:argType="com.example.musicplayer.data.entities.Album" />

@@ -70,7 +70,7 @@ class AlbumsFragment : Fragment(R.layout.fragment_albums), AlbumsAdapter.OnItemC
         val extras = FragmentNavigatorExtras(
             cardView to album.id.toString()
         )
-        val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragment(album)
+        val action = AlbumsFragmentDirections.actionAlbumsFragmentToAlbumFragmentNew(album)
         findNavController().navigate(action, extras)
 
         exitTransition = Hold().apply {

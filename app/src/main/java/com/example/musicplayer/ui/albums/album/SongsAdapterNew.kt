@@ -29,6 +29,11 @@ class SongsAdapterNew @Inject constructor(
 
     override fun onBindViewHolder(holder: SongsViewHolderNew, position: Int) {
         val currentItem = songNews[position]
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.let { click ->
+                click(currentItem)
+            }
+        }
         holder.bind(currentItem)
     }
 
@@ -45,11 +50,6 @@ class SongsAdapterNew @Inject constructor(
                 tvSecondary.text = songNew.subtitle
                 glide.load(songNew.imageUrl).into(ivItemImage)
 
-                setOnItemClickListener {
-                    onItemClickListener?.let { click ->
-                        click(songNew)
-                    }
-                }
             }
         }
     }

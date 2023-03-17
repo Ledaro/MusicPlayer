@@ -28,6 +28,9 @@ class AlbumFragmentNew : Fragment(R.layout.fragment_album_new) {
         super.onViewCreated(view, savedInstanceState)
         _binding = FragmentAlbumNewBinding.bind(view)
         mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
+        setupRecyclerView()
+        subscribeToObservers()
+
         songAdapter.setOnItemClickListener {
             mainViewModel.playOrToggleSong(it)
         }
