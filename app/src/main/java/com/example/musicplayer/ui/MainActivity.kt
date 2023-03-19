@@ -10,7 +10,6 @@ import android.widget.RelativeLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
@@ -30,27 +29,34 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<RelativeLayout>
-    private val transition = Fade().apply {
-        duration = 600
-        addTarget(R.id.bottoms_sheet_player)
-        addTarget(R.id.song_layout)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setupNavigation()
+        setupBottomSheet()
+
+        if (savedInstanceState != null) {
+            bottomSheetBehavior.state = savedInstanceState.getInt(
+                BOTTOM_SHEET_STATE_KEY,
+                BottomSheetBehavior.STATE_COLLAPSED
+            )
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(BOTTOM_SHEET_STATE_KEY, bottomSheetBehavior.state)
+    }
+
+    private fun setupBottomSheet() {
         val bottomSheetFragmentContainer =
-            findViewById<FragmentContainerView>(R.id.bottom_sheet_fragment_container)
+            binding.bottomSheetFragmentContainer
         val songBottomFragment =
             supportFragmentManager.findFragmentById(bottomSheetFragmentContainer.id) as SongBottomSheetFragment
 
-        val navHostFragment = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        navController = navHostFragment.navController
-
-        binding.bottomNavigationView.setupWithNavController(navController)
 
         val bottomSheet = binding.bottomDrawer
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
@@ -60,7 +66,6 @@ class MainActivity : AppCompatActivity() {
             BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    // Hide the music player when the bottom sheet is fully hidden
                     songBottomFragment.view?.findViewById<CardView>(R.id.bottoms_sheet_player)?.visibility =
                         View.GONE
                 }
@@ -103,7 +108,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun setupNavigation() {
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
@@ -112,17 +122,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        if (savedInstanceState != null) {
-            bottomSheetBehavior.state = savedInstanceState.getInt(
-                BOTTOM_SHEET_STATE_KEY,
-                BottomSheetBehavior.STATE_COLLAPSED
-            )
-        }
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(BOTTOM_SHEET_STATE_KEY, bottomSheetBehavior.state)
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
     private fun showBottomNav() {

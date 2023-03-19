@@ -78,9 +78,7 @@ class MusicService : MediaBrowserServiceCompat() {
             this,
             mediaSession.sessionToken,
             MusicPlayerNotificationListener(this)
-        ) {
-            currentSongDuration = exoPlayer.duration
-        }
+        )
 
         val musicPlaybackPreparer = MusicPlaybackPreparer(firebaseMusicSource) {
             currentPlayingSong = it
@@ -134,7 +132,7 @@ class MusicService : MediaBrowserServiceCompat() {
         clientPackageName: String,
         clientUid: Int,
         rootHints: Bundle?
-    ): BrowserRoot? {
+    ): BrowserRoot {
         return BrowserRoot(MEDIA_ROOT_ID, null)
     }
 

@@ -25,7 +25,7 @@ class SongsAdapter(private val listener: OnItemClickListener) :
         holder.bind(currentItem)
     }
 
-    inner class SongsViewHolder(private val binding: ItemSongBinding) :
+    inner class SongsViewHolder(binding: ItemSongBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {

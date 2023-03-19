@@ -1,7 +1,7 @@
 package com.example.musicplayer.other
 
 open class Event<out T>(private val data: T) {
-    var hasBeenHandled = false
+    private var hasBeenHandled = false
         private set
 
     fun getContentIfNotHandled(): T? {

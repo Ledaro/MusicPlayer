@@ -18,8 +18,7 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 class MusicNotificationManager(
     private val context: Context,
     sessionToken: MediaSessionCompat.Token,
-    notificationListener: PlayerNotificationManager.NotificationListener,
-    private val newSongCallback: () -> Unit
+    notificationListener: PlayerNotificationManager.NotificationListener
 ) {
 
     private val notificationManager: PlayerNotificationManager
@@ -55,7 +54,7 @@ class MusicNotificationManager(
             return mediaController.sessionActivity
         }
 
-        override fun getCurrentContentText(player: Player): CharSequence? {
+        override fun getCurrentContentText(player: Player): CharSequence {
             return mediaController.metadata.description.subtitle.toString()
         }
 

@@ -24,8 +24,8 @@ class MainViewModel @Inject constructor(
 
     val isConnected = musicServiceConnection.isConnected
     val networkError = musicServiceConnection.networkError
-    val currentPlayingSong = musicServiceConnection.currentPlayingSong
-    val playbackState = musicServiceConnection.playbackState
+    private val currentPlayingSong = musicServiceConnection.currentPlayingSong
+    private val playbackState = musicServiceConnection.playbackState
 
     init {
         _mediaItems.postValue(Resource.loading(null))

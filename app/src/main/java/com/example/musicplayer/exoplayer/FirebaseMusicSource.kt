@@ -30,7 +30,7 @@ class FirebaseMusicSource @Inject constructor(
     private suspend fun getAllSongs() = withContext(Dispatchers.IO) {
         val allSongs = musicDatabase.getAllSongs()
         songs = allSongs.map { song ->
-            MediaMetadataCompat.Builder()
+            Builder()
                 .putString(METADATA_KEY_ALBUM_ART_URI, song.imageUrl)
                 .putString(METADATA_KEY_DISPLAY_ICON_URI, song.imageUrl)
                 .putString(METADATA_KEY_TITLE, song.title)
