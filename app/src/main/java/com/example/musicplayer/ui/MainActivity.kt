@@ -21,7 +21,7 @@ import com.bumptech.glide.RequestManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.ActivityMainBinding
-import com.example.musicplayer.other.Status
+import com.example.musicplayer.other.Status.*
 import com.example.musicplayer.ui.albums.song.SongBottomSheetFragment
 import com.example.musicplayer.ui.albums.song.SwipeSongsAdapterNew
 import com.example.musicplayer.util.toSong
@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomSheetFragmentContainer: FragmentContainerView
     private lateinit var songBottomFragment: SongBottomSheetFragment
 
+    private var vpSong: ViewPager2? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,8 +60,7 @@ class MainActivity : AppCompatActivity() {
         songBottomFragment =
             supportFragmentManager.findFragmentById(bottomSheetFragmentContainer.id) as SongBottomSheetFragment
 
-        var vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
-        vpSong?.adapter = swipeSongsAdapterNew
+/*        vpSong.adapter = swipeSongsAdapterNew*/
 
         setupNavigation()
         setupBottomSheet()
@@ -79,10 +79,13 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(BOTTOM_SHEET_STATE_KEY, bottomSheetBehavior.state)
     }
 
-    private fun switchViewPagerToCurrentSong(songNew: SongNew) {
-        var vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
+    override fun onStart() {
+        super.onStart()
+        vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
         vpSong?.adapter = swipeSongsAdapterNew
+    }
 
+    private fun switchViewPagerToCurrentSong(songNew: SongNew) {
         val newItemIndex = swipeSongsAdapterNew.songs.indexOf(songNew)
         if (newItemIndex != -1) {
             vpSong?.currentItem = newItemIndex
@@ -91,35 +94,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeToObserver() {
-        mainViewModel.mediaItems.observe(this) { result ->
-            when (result.status) {
-                Status.SUCCESS -> {
-                    result.data?.let { songs ->
-                        swipeSongsAdapterNew.songs = songs
-                        if (songs.isNotEmpty()) {
-                            songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
-                                ?.let { ivCurSongImage ->
-                                    glide.load((currentPlayingSong ?: songs[0]).imageUrl)
-                                        .into(ivCurSongImage)
-                                }
+        mainViewModel.mediaItems.observe(this) {
+            it?.let { result ->
+                when (result.status) {
+                    SUCCESS -> {
+                        result.data?.let { songs ->
+                            swipeSongsAdapterNew.songs = songs
+                            if (songs.isNotEmpty()) {
+                                songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
+                                    ?.let { ivCurSongImage ->
+                                        glide.load((currentPlayingSong ?: songs[0]).imageUrl)
+                                            .into(ivCurSongImage)
+                                    }
+                            }
+                            switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
                         }
-                        switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
                     }
+                    ERROR -> Unit
+                    LOADING -> Unit
                 }
-                Status.ERROR -> Unit
-                Status.LOADING -> Unit
             }
         }
+        mainViewModel.currentPlayingSong.observe(this) {
+            if (it == null) return@observe
 
-        mainViewModel.currentPlayingSong.observe(this) { song ->
-            song?.let {
-                currentPlayingSong = it.toSong()
-                songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
-                    ?.let { ivCurSongImage ->
-                        glide.load(currentPlayingSong?.imageUrl).into(ivCurSongImage)
-                    }
-                switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
-            }
+            currentPlayingSong = it.toSong()
+            songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
+                ?.let { ivCurSongImage ->
+                    glide.load(currentPlayingSong?.imageUrl).into(ivCurSongImage)
+                }
+            switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
         }
     }
 
