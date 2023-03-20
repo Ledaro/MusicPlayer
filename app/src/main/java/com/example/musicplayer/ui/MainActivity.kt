@@ -60,8 +60,6 @@ class MainActivity : AppCompatActivity() {
         songBottomFragment =
             supportFragmentManager.findFragmentById(bottomSheetFragmentContainer.id) as SongBottomSheetFragment
 
-/*        vpSong.adapter = swipeSongsAdapterNew*/
-
         setupNavigation()
         setupBottomSheet()
         subscribeToObserver()
@@ -185,22 +183,7 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-/*        navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.albumFragmentNew -> hideBottomNav()
-                else -> showBottomNav()
-            }
-        }*/
-
         binding.bottomNavigationView.setupWithNavController(navController)
-    }
-
-    private fun showBottomNav() {
-        binding.bottomNavigationView.visibility = View.VISIBLE
-    }
-
-    private fun hideBottomNav() {
-        binding.bottomNavigationView.visibility = View.GONE
     }
 
     companion object {
