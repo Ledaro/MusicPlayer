@@ -6,17 +6,25 @@ import android.transition.TransitionManager
 import android.transition.TransitionSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RelativeLayout
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.FragmentContainerView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.RequestManager
 import com.example.musicplayer.R
+import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.ActivityMainBinding
-import com.example.musicplayer.ui.albums.album.SongBottomSheetFragment
+import com.example.musicplayer.other.Status
+import com.example.musicplayer.ui.albums.song.SongBottomSheetFragment
+import com.example.musicplayer.ui.albums.song.SwipeSongsAdapterNew
+import com.example.musicplayer.util.toSong
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -24,19 +32,39 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
+    private val mainViewModel: MainViewModel by viewModels()
+
     @Inject
     lateinit var glide: RequestManager
+
+    @Inject
+    lateinit var swipeSongsAdapterNew: SwipeSongsAdapterNew
+
+    private var currentPlayingSong: SongNew? = null
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<RelativeLayout>
+
+    private lateinit var bottomSheetFragmentContainer: FragmentContainerView
+    private lateinit var songBottomFragment: SongBottomSheetFragment
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        bottomSheetFragmentContainer = binding.bottomSheetFragmentContainer
+        songBottomFragment =
+            supportFragmentManager.findFragmentById(bottomSheetFragmentContainer.id) as SongBottomSheetFragment
+
+        var vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
+        vpSong?.adapter = swipeSongsAdapterNew
+
         setupNavigation()
         setupBottomSheet()
+        subscribeToObserver()
 
         if (savedInstanceState != null) {
             bottomSheetBehavior.state = savedInstanceState.getInt(
@@ -51,13 +79,51 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(BOTTOM_SHEET_STATE_KEY, bottomSheetBehavior.state)
     }
 
+    private fun switchViewPagerToCurrentSong(songNew: SongNew) {
+        var vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
+        vpSong?.adapter = swipeSongsAdapterNew
+
+        val newItemIndex = swipeSongsAdapterNew.songs.indexOf(songNew)
+        if (newItemIndex != -1) {
+            vpSong?.currentItem = newItemIndex
+            currentPlayingSong = songNew
+        }
+    }
+
+    private fun subscribeToObserver() {
+        mainViewModel.mediaItems.observe(this) { result ->
+            when (result.status) {
+                Status.SUCCESS -> {
+                    result.data?.let { songs ->
+                        swipeSongsAdapterNew.songs = songs
+                        if (songs.isNotEmpty()) {
+                            songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
+                                ?.let { ivCurSongImage ->
+                                    glide.load((currentPlayingSong ?: songs[0]).imageUrl)
+                                        .into(ivCurSongImage)
+                                }
+                        }
+                        switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
+                    }
+                }
+                Status.ERROR -> Unit
+                Status.LOADING -> Unit
+            }
+        }
+
+        mainViewModel.currentPlayingSong.observe(this) { song ->
+            song?.let {
+                currentPlayingSong = it.toSong()
+                songBottomFragment.view?.findViewById<ImageView>(R.id.ivCurSongImage)
+                    ?.let { ivCurSongImage ->
+                        glide.load(currentPlayingSong?.imageUrl).into(ivCurSongImage)
+                    }
+                switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
+            }
+        }
+    }
+
     private fun setupBottomSheet() {
-        val bottomSheetFragmentContainer =
-            binding.bottomSheetFragmentContainer
-        val songBottomFragment =
-            supportFragmentManager.findFragmentById(bottomSheetFragmentContainer.id) as SongBottomSheetFragment
-
-
         val bottomSheet = binding.bottomDrawer
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet)
         bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -115,12 +181,12 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+/*        navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.albumFragmentNew -> hideBottomNav()
                 else -> showBottomNav()
             }
-        }
+        }*/
 
         binding.bottomNavigationView.setupWithNavController(navController)
     }

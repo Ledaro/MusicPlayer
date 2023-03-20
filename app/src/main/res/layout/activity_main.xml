@@ -36,7 +36,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/bottom_sheet_fragment_container"
-            android:name="com.example.musicplayer.ui.albums.album.SongBottomSheetFragment"
+            android:name="com.example.musicplayer.ui.albums.song.SongBottomSheetFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

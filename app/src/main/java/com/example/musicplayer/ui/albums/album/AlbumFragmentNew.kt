@@ -10,6 +10,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentAlbumNewBinding
 import com.example.musicplayer.other.Status
 import com.example.musicplayer.ui.MainViewModel
+import com.example.musicplayer.ui.albums.song.SongsAdapterNew
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -31,7 +32,7 @@ class AlbumFragmentNew : Fragment(R.layout.fragment_album_new) {
         setupRecyclerView()
         subscribeToObservers()
 
-        songAdapter.setOnItemClickListener {
+        songAdapter.setItemClickListener {
             mainViewModel.playOrToggleSong(it)
         }
     }
@@ -47,7 +48,7 @@ class AlbumFragmentNew : Fragment(R.layout.fragment_album_new) {
                 Status.SUCCESS -> {
                     binding.allSongsProgressBar.isVisible = false
                     result.data?.let { songs ->
-                        songAdapter.songNews = songs
+                        songAdapter.songs = songs
                     }
                 }
                 Status.ERROR -> Unit

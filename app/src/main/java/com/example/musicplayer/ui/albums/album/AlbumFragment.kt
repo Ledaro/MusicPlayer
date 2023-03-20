@@ -15,6 +15,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.FragmentAlbumBinding
 import com.example.musicplayer.ui.albums.AlbumsViewModel
+import com.example.musicplayer.ui.albums.song.SongsAdapter
 import com.example.musicplayer.util.themeColor
 import com.google.android.material.transition.MaterialArcMotion
 import com.google.android.material.transition.MaterialContainerTransform
