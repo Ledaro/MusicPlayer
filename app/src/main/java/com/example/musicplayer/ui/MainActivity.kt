@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui
 
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.transition.Fade
 import android.transition.TransitionManager
 import android.transition.TransitionSet
@@ -21,11 +22,13 @@ import com.bumptech.glide.RequestManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.entities.SongNew
 import com.example.musicplayer.databinding.ActivityMainBinding
+import com.example.musicplayer.exoplayer.isPlaying
 import com.example.musicplayer.other.Status.*
 import com.example.musicplayer.ui.albums.song.SongBottomSheetFragment
 import com.example.musicplayer.ui.albums.song.SwipeSongsAdapterNew
 import com.example.musicplayer.util.toSong
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var swipeSongsAdapterNew: SwipeSongsAdapterNew
 
     private var currentPlayingSong: SongNew? = null
+    private var playbackState: PlaybackStateCompat? = null
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -48,8 +52,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomSheetFragmentContainer: FragmentContainerView
     private lateinit var songBottomFragment: SongBottomSheetFragment
-
     private var vpSong: ViewPager2? = null
+    private var ivPlayPause: ImageView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +85,26 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         vpSong = songBottomFragment.view?.findViewById<ViewPager2>(R.id.vpSong)
+        ivPlayPause = songBottomFragment.view?.findViewById<ImageView>(R.id.ivPlayPause)
+
         vpSong?.adapter = swipeSongsAdapterNew
+
+        vpSong?.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                if (playbackState?.isPlaying == true) {
+                    mainViewModel.playOrToggleSong(swipeSongsAdapterNew.songs[position])
+                } else {
+                    currentPlayingSong = swipeSongsAdapterNew.songs[position]
+                }
+            }
+        })
+
+        ivPlayPause?.setOnClickListener {
+            currentPlayingSong?.let {
+                mainViewModel.playOrToggleSong(it, true)
+            }
+        }
     }
 
     private fun switchViewPagerToCurrentSong(songNew: SongNew) {
@@ -123,6 +147,38 @@ class MainActivity : AppCompatActivity() {
                 }
             switchViewPagerToCurrentSong(currentPlayingSong ?: return@observe)
         }
+        mainViewModel.playbackState.observe(this) {
+            playbackState = it
+            songBottomFragment.view?.findViewById<ImageView>(R.id.ivPlayPause)?.setImageResource(
+                if (playbackState?.isPlaying == true) R.drawable.ic_pause else R.drawable.ic_play_arrow
+            )
+        }
+        mainViewModel.isConnected.observe(this) {
+            it?.getContentIfNotHandled()?.let { result ->
+                when (result.status) {
+                    ERROR -> Snackbar.make(
+                        binding.root,
+                        result.message ?: "An unknown error occurred",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+
+                    else -> Unit
+                }
+            }
+        }
+        mainViewModel.networkError.observe(this) {
+            it?.getContentIfNotHandled()?.let { result ->
+                when (result.status) {
+                    ERROR -> Snackbar.make(
+                        binding.root,
+                        result.message ?: "An unknown error occurred",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+
+                    else -> Unit
+                }
+            }
+        }
     }
 
     private fun setupBottomSheet() {
@@ -158,7 +214,10 @@ class MainActivity : AppCompatActivity() {
                         })
                     }
 
-                    TransitionManager.beginDelayedTransition(bottomSheet as ViewGroup?, transition)
+                    TransitionManager.beginDelayedTransition(
+                        bottomSheet as ViewGroup?,
+                        transition
+                    )
 
                     if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED && alpha == 0f) {
                         cardView?.visibility = View.GONE
